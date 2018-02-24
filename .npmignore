@@ -1,0 +1,18 @@
+# Ignore everything by default
+*
+
+# Require two entries for directories because both the directory and the files
+# inside have to be explicitly included
+!demos/
+!demos/*
+!src/
+!src/*
+!dist/
+!dist/*
+!.babelrc
+!.gitignore
+!.npmignore
+!package.json
+!readme.md
+!webpack.config.js
+!yarn.lock
