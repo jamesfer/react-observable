@@ -10,6 +10,7 @@
 !.babelrc
 !.gitignore
 !.npmignore
+!.travis.yml
 !package.json
 !readme.md
 !webpack.config.js

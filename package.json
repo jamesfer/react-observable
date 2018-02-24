@@ -10,6 +10,7 @@
     "build": "webpack",
     "lint": "standard",
     "test": "jest",
+    "test:ci": "jest --coverage",
     "install-peers": "yarn add --peer react react-dom rxjs"
   },
   "jest": {
