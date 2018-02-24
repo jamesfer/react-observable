@@ -6,4 +6,6 @@ cache:
   directories:
     - node_modules
 
-script: yarn test:ci
+script: yarn ci:test
+deploy:
+  - yarn ci:report
