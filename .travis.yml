@@ -7,6 +7,8 @@ cache:
     - node_modules
 
 before_script: yarn install-peers
-script: yarn ci:test
-deploy:
+script:
+  - yarn build
+  - yarn ci:test
+after_success:
   - yarn ci:report
