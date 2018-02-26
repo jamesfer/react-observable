@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import React from 'react'
 import { Observable, Subject } from 'rxjs'
 import { component, createElement } from './observable-react'
@@ -75,7 +76,6 @@ describe('createElement', () => {
   })
 })
 
-
 describe('component', () => {
   it('should return a new class that extends React.Component', () => {
     const componentClass = component(() => createElement('div', null))
@@ -83,18 +83,18 @@ describe('component', () => {
   })
 
   it('should render the component', () => {
-    const componentClass = component(() => createElement('div', null))
-    const instance = new componentClass({})
+    const ComponentClass = component(() => createElement('div', null))
+    const instance = new ComponentClass({})
 
     expect(instance.render()).toEqual(React.createElement('div', null))
   })
 
   it('should render updated component if it changes before it was mounted', () => {
     const id$ = new Subject()
-    const componentClass = component(() => createElement('div', {
+    const ComponentClass = component(() => createElement('div', {
       id: id$.startWith('1')
     }))
-    const instance = new componentClass({})
+    const instance = new ComponentClass({})
 
     id$.next('2')
     expect(instance.render()).toEqual(React.createElement('div', { id: '2' }))
@@ -102,10 +102,10 @@ describe('component', () => {
 
   it('should call setState when it changes after it was mounted', () => {
     const id$ = new Subject()
-    const componentClass = component(() => createElement('div', {
+    const ComponentClass = component(() => createElement('div', {
       id: id$.startWith('1')
     }))
-    const instance = new componentClass({})
+    const instance = new ComponentClass({})
     instance.setState = jest.fn()
 
     instance.componentDidMount()
@@ -118,10 +118,10 @@ describe('component', () => {
 
   it('should unsubscribe from updates when it is unmounted', () => {
     const id$ = new Subject()
-    const componentClass = component(() => createElement('div', {
+    const ComponentClass = component(() => createElement('div', {
       id: id$.startWith('1')
     }))
-    const instance = new componentClass({})
+    const instance = new ComponentClass({})
 
     id$.next('2')
     instance.componentWillUnmount()

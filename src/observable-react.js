@@ -1,10 +1,6 @@
 import React from 'react'
 import { Observable } from 'rxjs'
-import {
-  baseValueOf, mergeObservableArray, mergeObservableObject,
-  recursiveMergeObservableArray,
-} from './utils'
-
+import { mergeObservableArray, mergeObservableObject } from './utils'
 
 /**
  * Substitute jsx renderer.
@@ -25,14 +21,12 @@ export function createElement (type, props, ...children) {
 
   if (elementObservable$ instanceof Observable) {
     return elementObservable$
-    // .startWith(baseValueOf([ type, props, ...children ]))
       .map(([ type, props, ...children ]) => {
         return React.createElement(type, props, ...children)
       })
   }
   return React.createElement(type, props, ...children)
 }
-
 
 class ObservableReactComponent extends React.Component {
   constructor (props, functionComponent) {
@@ -68,7 +62,6 @@ class ObservableReactComponent extends React.Component {
   }
 }
 
-
 /**
  * Creates a component from an observable.
  * @param {function} functionComponent
@@ -76,12 +69,11 @@ class ObservableReactComponent extends React.Component {
  */
 export function component (functionComponent) {
   return class extends ObservableReactComponent {
-    constructor(props) {
+    constructor (props) {
       super(props, functionComponent)
     }
   }
 }
-
 
 export default {
   createElement,

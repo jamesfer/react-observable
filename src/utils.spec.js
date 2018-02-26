@@ -1,6 +1,6 @@
+/* eslint-env jest */
 import { mergeObservableArray } from './utils'
-import { Observable, Subject } from 'rxjs'
-
+import { Subject } from 'rxjs'
 
 describe('mergeObservableArray', () => {
   it('should return the same array if none of the values are observable', () => {

@@ -1,7 +1,6 @@
 import { map, zipObject, some, unzip, toPairs } from 'lodash'
 import { Observable } from 'rxjs'
 
-
 /**
  * Merges all observable values of an object into a single observable.
  * The resulting observable emits every time one of the input values does.
@@ -26,7 +25,6 @@ export function mergeObservableObject (valueObject) {
   return valueObject
 }
 
-
 /**
  * Merges all observable values of an array into a single observable.
  * The resulting observable emits every time one of the input values does.
@@ -44,5 +42,4 @@ export function mergeObservableArray (values) {
   return Observable.combineLatest(map(values, value => {
     return value instanceof Observable ? value : Observable.of(value)
   }))
-    // .startWith(map(values, value => value instanceof Observable ? null : value))
 }

@@ -17,14 +17,14 @@ module.exports = {
       {
         test: /\.jsx?/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: 'babel-loader'
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: localPath('timesheets.html'),
-      filename: 'timesheets.html',
+      filename: 'timesheets.html'
     })
   ],
   devServer: {

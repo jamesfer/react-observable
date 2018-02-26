@@ -1,25 +1,21 @@
+/** @jsx ObsReact.createElement */
 import { Observable, Subject } from 'rxjs'
 import ObsReact from '../src/observable-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { padStart } from 'lodash'
 
-/** @jsx ObsReact.createElement */
-
-
-
-/**
+/******************************************
  * Timesheet model
- */
+ ******************************************/
 
 const second = 1000
 const minute = 60 * second
 const hour = 60 * minute
 
-
 class TimesheetModel {
-  constructor(name) {
-    this.interval = 10;
+  constructor (name) {
+    this.interval = 10
 
     // Create a random id for this timesheet
     this.id = Math.random().toString(36).substr(2, 5)
@@ -59,14 +55,9 @@ class TimesheetModel {
   }
 }
 
-
-
-
-
-
-/**
+/******************************************
  * Timesheet component
- */
+ ******************************************/
 
 const Timesheet = ObsReact.component(({ timesheet }) => {
   const button$ = timesheet.running$.map(isRunning => {
@@ -82,36 +73,29 @@ const Timesheet = ObsReact.component(({ timesheet }) => {
     </button>
   })
 
-  return <div className="timesheet">
-    <strong className="timesheet-name">{ timesheet.name$ }</strong>
-    <span className="spacer"></span>
-    <span className="timesheet-time">
+  return <div className='timesheet'>
+    <strong className='timesheet-name'>{ timesheet.name$ }</strong>
+    <span className='spacer' />
+    <span className='timesheet-time'>
       { timesheet.hours$ }:{ timesheet.minutes$ }:{ timesheet.seconds$ }
     </span>
     {button$}
   </div>
-});
+})
 
-
-
-
-
-
-/**
+/******************************************
  * Timesheet list component
- */
-
+ ******************************************/
 
 /**
  * Creates a new timesheet
  * @param {Subject} timesheets$
  */
-function createTimesheet(timesheets$) {
+function createTimesheet (timesheets$) {
   const now = new Date()
   const name = now.toLocaleTimeString('en-US')
   timesheets$.next(new TimesheetModel(name))
 }
-
 
 const TimesheetList = ObsReact.component(() => {
   // Emits each individual timesheet
@@ -131,24 +115,21 @@ const TimesheetList = ObsReact.component(() => {
       })
     }
 
-    return <div className="hint">Press New to create a timesheet</div>
+    return <div className='hint'>Press New to create a timesheet</div>
   })
 
   return <main>
-    <button className="new-button" onClick={() => createTimesheet(timesheets$)}>
+    <button className='new-button' onClick={() => createTimesheet(timesheets$)}>
       New
     </button>
 
     <h1>Timesheets</h1>
 
-    <div className="timesheet-list">
+    <div className='timesheet-list'>
       { timesheetDom$ }
     </div>
   </main>
-});
-
-
-
+})
 
 ReactDOM.render(
   React.createElement(TimesheetList, null),
