@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "author": "James Ferguson <jamesferguson497@gmail.com>",
   "description": "A library that lets you define react components as Observables",
-  "keywords": [ "react", "observable", "rxjs" ],
+  "keywords": [
+    "react",
+    "observable",
+    "rxjs"
+  ],
   "main": "dist/index.js",
   "module": "src/index.js",
   "license": "MIT",
