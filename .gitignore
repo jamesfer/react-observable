@@ -11,6 +11,7 @@
 !.gitignore
 !.npmignore
 !.travis.yml
+!LICENSE
 !package.json
 !readme.md
 !webpack.config.js
