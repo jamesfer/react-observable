@@ -20,7 +20,7 @@
     "test": "jest",
     "ci:test": "jest --coverage",
     "ci:report": "cat ./coverage/lcov.info | coveralls",
-    "install-peers": "yarn add --peer react react-dom rxjs"
+    "install-peers": "yarn add --frozen-lockfile --peer react react-dom rxjs"
   },
   "jest": {
     "testRegex": "src/.*\\.(spec|test)\\.js$"
