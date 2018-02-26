@@ -1,7 +1,7 @@
 /* eslint-env jest */
 import React from 'react'
 import { Observable, Subject } from 'rxjs'
-import { component, createElement } from './observable-react'
+import { component, createElement } from './index'
 
 describe('createElement', () => {
   it('should return a plain element when no inputs are observable', () => {

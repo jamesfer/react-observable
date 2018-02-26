@@ -1,6 +1,6 @@
 /** @jsx ObsReact.createElement */
 import { Observable, Subject } from 'rxjs'
-import ObsReact from '../src/observable-react'
+import ObsReact from '../src/index'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { padStart } from 'lodash'

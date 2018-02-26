@@ -1,13 +1,13 @@
 {
-  "name": "observable-react",
+  "name": "react-with-observables",
   "version": "1.0.0",
   "author": "James Ferguson <jamesferguson497@gmail.com>",
   "description": "A library that lets you define react components as Observables",
   "keywords": [ "react", "observable", "rxjs" ],
-  "main": "dist/observable-react.js",
-  "module": "src/observable-react.js",
+  "main": "dist/index.js",
+  "module": "src/index.js",
   "license": "MIT",
-  "repository": "github:jamesfer/react-observable",
+  "repository": "github:jamesfer/react-with-observables",
   "scripts": {
     "demo:build": "webpack --config ./demos/webpack.config.js",
     "demo:start": "webpack-dev-server --config ./demos/webpack.config.js",

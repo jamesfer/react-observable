@@ -9,11 +9,11 @@ function localPath (...paths) {
 }
 
 module.exports = {
-  entry: localPath('src', 'observable-react.js'),
+  entry: localPath('src', 'index.js'),
   devtool: 'source-map',
   output: {
     path: localPath('dist'),
-    filename: 'observable-react.js',
+    filename: 'index.js',
     library: 'ObsReact',
     libraryTarget: 'umd'
   },
