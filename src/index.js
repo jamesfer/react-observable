@@ -76,6 +76,7 @@ export function component (functionComponent) {
 }
 
 export default {
+  ...React,
   createElement,
   component
 }

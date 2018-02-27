@@ -20,6 +20,19 @@ Write react components using nothing but functions and observables.
 Whenever the time increments the component will automatically be rerendered
 without you ever having to call `setState()`.
 
+If you'd like to skip the jsx comment you could import React from this package
+as it is re-exported.
+
+    import React from 'react-with-observables'
+    
+    const Timer = React.component(props => {
+      const time$ = Rx.Observable.interval(1000)
+      const minutes$ = time$.map(seconds => Math.floor(seconds / 60))
+      const seconds$ = time$.map(seconds => seconds % 60)
+      
+      return <div className="timer">{ minutes$ }:{ seconds$ }</div>
+    })
+
 There are a number of other solutions out there at the moment that try to 
 combine observables with react but I created this repo because I thought there 
 should be an even simpler way.
