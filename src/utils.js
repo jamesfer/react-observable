@@ -1,4 +1,8 @@
-import { map, zipObject, some, unzip, toPairs } from 'lodash'
+import map from 'lodash/map'
+import zipObject from 'lodash/zipobject'
+import some from 'lodash/some'
+import unzip from 'lodash/unzip'
+import toPairs from 'lodash/topairs'
 import { Observable } from 'rxjs'
 
 /**
