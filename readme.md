@@ -1,13 +1,13 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![Build Status](https://travis-ci.org/jamesfer/react-observable.svg?branch=master)](https://travis-ci.org/jamesfer/react-observable)
-[![Coverage Status](https://coveralls.io/repos/github/jamesfer/react-observable/badge.svg?branch=master)](https://coveralls.io/github/jamesfer/react-observable?branch=master)
+[![Build Status](https://travis-ci.org/jamesfer/react-with-observables.svg?branch=master)](https://travis-ci.org/jamesfer/react-with-observables)
+[![Coverage Status](https://coveralls.io/repos/github/jamesfer/react-with-observables/badge.svg?branch=master)](https://coveralls.io/github/jamesfer/react-with-observables?branch=master)
 
-# Observable React
+# React with Observables
 
 Write react components using nothing but functions and observables.
 
     /** @jsx ObsReact.createElement */
-    import ObsReact from 'observable-react'
+    import ObsReact from 'react-with-observables'
     
     const Timer = ObsReact.component(props => {
       const time$ = Rx.Observable.interval(1000)
