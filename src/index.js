@@ -1,6 +1,6 @@
 import React from 'react'
-import { Observable } from 'rxjs'
-import { mergeObservableArray, mergeObservableObject } from './utils'
+import { Observable, Subject } from 'rxjs'
+import { mergeObservableArray, mergeObservableObject, castObservable } from './utils'
 
 /**
  * Substitute jsx renderer.
@@ -31,30 +31,39 @@ export function createElement (type, props, ...children) {
 class ObservableReactComponent extends React.Component {
   constructor (props, functionComponent) {
     super(props)
-    this.mounted = false
     this.state = {
       element: null
     }
+    this.hooks = {
+      mounted$: new Subject().startWith(false),
+      componentDidMount$: new Subject(),
+      componentWillUnmount$: new Subject(),
+      componentDidUpdate$: new Subject()
+    }
 
-    const component = functionComponent(props)
-    const component$ = component instanceof Observable ? component
-      : Observable.of(component)
+    this.component$ = castObservable(functionComponent(props, this.hooks))
 
-    this.componentSubscription = component$.subscribe(element => {
-      if (this.mounted) {
-        this.setState({ element })
-      } else {
-        this.state = { element }
-      }
-    })
+    // Subscription is automatically cleaned up when the component is
+    // destroyed
+    this.component$.takeUntil(this.hooks.componentWillUnmount$)
+      .withLatestFrom(this.hooks.mounted$)
+      .subscribe(([element, mounted]) => {
+        if (mounted) {
+          this.setState({ element })
+        } else {
+          this.state = { element }
+        }
+      })
   }
 
   componentDidMount () {
-    this.mounted = true
+    this.hooks.mounted$.next(true)
+    this.hooks.componentDidMount$.next()
   }
 
   componentWillUnmount () {
-    this.componentSubscription.unsubscribe()
+    this.hooks.mounted$.next(false)
+    this.hooks.componentWillUnmount$.next()
   }
 
   render () {
@@ -78,5 +87,5 @@ export function component (functionComponent) {
 export default {
   ...React,
   createElement,
-  component
+  createReactElement: React.createElement
 }

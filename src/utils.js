@@ -5,6 +5,10 @@ import unzip from 'lodash/unzip'
 import toPairs from 'lodash/topairs'
 import { Observable } from 'rxjs'
 
+export function castObservable (value) {
+  return value instanceof Observable ? value : Observable.of(value)
+}
+
 /**
  * Merges all observable values of an object into a single observable.
  * The resulting observable emits every time one of the input values does.
