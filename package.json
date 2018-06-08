@@ -1,4 +1,10 @@
 {
   "private": true,
-  "workspaces": ["packages/*"]
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "lint": "cd packages/core && yarn -s lint",
+    "build": "cd packages/core && yarn -s build:prod",
+    "test": "cd packages/core && yarn -s test",
+    "ci:report": "cd packages/core && yarn -s ci:report"
+  }
 }

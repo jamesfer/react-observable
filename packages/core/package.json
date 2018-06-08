@@ -16,10 +16,14 @@
     "build": "webpack",
     "build:prod": "webpack --mode=production",
     "lint": "standard",
-    "test": "jest",
-    "ci:test": "jest --coverage",
+    "test": "jest --coverage",
     "ci:report": "cat ./coverage/lcov.info | coveralls",
     "install-peers": "yarn add --frozen-lockfile --peer react@^16 react-dom@^16 rxjs@^6"
+  },
+  "standard": {
+    "ignore": [
+      "dist"
+    ]
   },
   "jest": {
     "testRegex": "src/.*\\.(spec|test)\\.js$",
