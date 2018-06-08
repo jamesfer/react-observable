@@ -1,18 +1,12 @@
-# Ignore everything by default
+# Ignore all files by default
 *
+!**/
 
-# Require two entries for directories because both the directory and the files
-# inside have to be explicitly included
-!demos/
-!demos/*
-!src/
-!src/*
-!.babelrc
-!.gitignore
-!.npmignore
-!.travis.yml
-!LICENSE
-!package.json
-!readme.md
-!webpack.config.js
-!yarn.lock
+# Explicitly include all of these files in the root directory
+!/.gitignore
+!/.travis.yml
+!/LICENSE
+!/package.json
+!/readme.md
+!/yarn.lock
+

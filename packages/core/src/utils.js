@@ -1,12 +1,14 @@
-import map from 'lodash/map'
-import zipObject from 'lodash/zipobject'
-import some from 'lodash/some'
-import unzip from 'lodash/unzip'
-import toPairs from 'lodash/topairs'
-import { Observable } from 'rxjs'
+import { isArray, map as _map, some, toPairs, unzip, zipObject } from 'lodash'
+import { combineLatest, Observable, of } from 'rxjs'
+import { map } from 'rxjs/operators'
 
+/**
+ * Casts a value to an observable if it is not one.
+ * @param {*} value
+ * @returns {Observable}
+ */
 export function castObservable (value) {
-  return value instanceof Observable ? value : Observable.of(value)
+  return value instanceof Observable ? value : of(value)
 }
 
 /**
@@ -25,12 +27,31 @@ export function mergeObservableObject (valueObject) {
   const valuesObservable$ = mergeObservableArray(values)
 
   if (valuesObservable$ instanceof Observable) {
-    return valuesObservable$.map(values => zipObject(keys, values))
+    return valuesObservable$.pipe(
+      map(values => zipObject(keys, values))
+    )
   }
 
   // When none of the values were observables, we should return the original
   // object unchanged.
   return valueObject
+}
+
+function isArrayOrObservable (value) {
+  return value instanceof Observable ||
+    (isArray(value) && some(value, isArrayOrObservable))
+}
+
+function combineArrayToObservable (values) {
+  if (values instanceof Observable) {
+    return values
+  }
+
+  if (isArray(values)) {
+    return combineLatest(_map(values, combineArrayToObservable))
+  }
+
+  return of(values)
 }
 
 /**
@@ -39,15 +60,14 @@ export function mergeObservableObject (valueObject) {
  * If none of the values are observables, then will return the array unmodified.
  *
  * @param {Array} values
+ * @param recursive
  * @return {Observable|Array}
  */
-export function mergeObservableArray (values) {
+export function mergeObservableArray (values, recursive = false) {
   // Return the array unchanged if no values are observable
-  if (!some(values, value => value instanceof Observable)) {
+  if (!isArrayOrObservable(values)) {
     return values
   }
 
-  return Observable.combineLatest(map(values, value => {
-    return value instanceof Observable ? value : Observable.of(value)
-  }))
+  return combineArrayToObservable(values)
 }

@@ -1,0 +1,54 @@
+{
+  "name": "react-with-observables",
+  "version": "0.1.0",
+  "author": "James Ferguson <jamesferguson497@gmail.com>",
+  "description": "A library that lets you define react components as Observables",
+  "keywords": [
+    "react",
+    "observable",
+    "rxjs"
+  ],
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "license": "MIT",
+  "repository": "github:jamesfer/react-with-observables",
+  "scripts": {
+    "build": "webpack",
+    "build:prod": "webpack --mode=production",
+    "lint": "standard",
+    "test": "jest",
+    "ci:test": "jest --coverage",
+    "ci:report": "cat ./coverage/lcov.info | coveralls",
+    "install-peers": "yarn add --frozen-lockfile --peer react@^16 react-dom@^16 rxjs@^6"
+  },
+  "jest": {
+    "testRegex": "src/.*\\.(spec|test)\\.js$",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "src/watcher\\.js",
+      ".*\\.spec\\.js"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-lodash": "^3.3.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "coveralls": "^3.0.0",
+    "jest": "^22.4.2",
+    "lodash": "^4.17.10",
+    "lodash-webpack-plugin": "^0.11.5",
+    "standard": "^11.0.0",
+    "webpack": "^4.8.3",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^2.1.4"
+  },
+  "peerDependencies": {
+    "react": "^16",
+    "react-dom": "^16",
+    "rxjs": "^6"
+  }
+}

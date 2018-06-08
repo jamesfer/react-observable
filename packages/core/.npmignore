@@ -1,12 +1,12 @@
 # Ignore everything by default
-*
+../../.travis.yml
 
 # Require two entries for directories because both the directory and the files
 # inside have to be explicitly included
 !demos/
 !demos/*
-!src/
-!src/*
+!packages/core/src/
+!packages/core/src/*
 !dist/
 !dist/*
 !.babelrc
