@@ -10,6 +10,6 @@ before_script: yarn before-script
 script:
   - yarn lint
   - yarn build
-  - yarn ci:test
+  - yarn test
 after_success:
   - yarn ci:report
