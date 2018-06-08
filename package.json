@@ -2,7 +2,7 @@
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
-    "before-script": "cd package/core && yarn -s install-peers",
+    "before-script": "cd packages/core && yarn -s install-peers",
     "lint": "cd packages/core && yarn -s lint",
     "build": "cd packages/core && yarn -s build:prod",
     "test": "cd packages/core && yarn -s test",
