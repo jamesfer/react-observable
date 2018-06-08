@@ -25,7 +25,7 @@ export class ObservableReactComponent extends Component {
     this.props$ = this._hooks.props$.pipe(
       startWith(this.props),
       distinctUntilChanged(),
-      this.untilUnmount,
+      this.untilUnmount
     )
     this.component$ = this._makeComponent(functionComponent)
   }
