@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { Subject } from 'rxjs'
-import { first, startWith, takeUntil, withLatestFrom, map, distinctUntilChanged } from 'rxjs/operators'
+import { first, startWith, takeUntil, withLatestFrom, switchMap, distinctUntilChanged } from 'rxjs/operators'
 import { castObservable } from './utils'
 import { isFunction } from 'lodash'
 
@@ -37,6 +37,7 @@ export class ObservableReactComponent extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     this._hooks.props$.next(nextProps)
+    return true
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -54,15 +55,11 @@ export class ObservableReactComponent extends Component {
 
   _makeComponent (functionComponent) {
     // Initialize the component
-    let component = functionComponent(this)
-
-    if (isFunction(component)) {
-      component = this.props$.pipe(map(component))
-    }
+    const component$ = this._runFunctionComponent(functionComponent)
 
     // Subscription is automatically cleaned up when the component is
     // unmounted
-    castObservable(component).pipe(
+    component$.pipe(
       withLatestFrom(this.hooks.mounted$),
       this.untilUnmount
     )
@@ -73,6 +70,24 @@ export class ObservableReactComponent extends Component {
           this.state = { element }
         }
       })
+    return component$
+  }
+
+  /**
+   * Runs a function component and returns an observable that will emit whenever
+   * it changes.
+   * @param functionComponent
+   * @returns {Observable}
+   * @private
+   */
+  _runFunctionComponent (functionComponent) {
+    const component = functionComponent(this)
+
+    if (isFunction(component)) {
+      return this.props$.pipe(
+        switchMap(props => castObservable(component(props)))
+      )
+    }
     return castObservable(component)
   }
 }
