@@ -1,27 +1,11 @@
-import { padStart } from 'lodash'
-import { interval, Subject } from 'rxjs'
-import { startWith, distinctUntilChanged, switchMapTo, scan, map, filter, takeUntil, mapTo } from 'rxjs/operators'
+import { interval, defer, of, Subject } from 'rxjs'
+import { startWith, distinctUntilChanged, switchMapTo, map, filter, takeUntil, mapTo, share, merge } from 'rxjs/operators'
 
 /******************************************
  * Timesheet model
  ******************************************/
 
-const intervalTime = 10
-const second = 1000
-const minute = 60 * second
-const hour = 60 * minute
-
-function toHours (time) {
-  return '' + Math.floor(time / hour)
-}
-
-function toMins (time) {
-  return padStart(Math.floor((time % hour) / minute), 2, '0')
-}
-
-function toSecs (time) {
-  return padStart(Math.floor((time % minute) / second), 2, '0')
-}
+const intervalTime = 100
 
 function makeInterval (until$) {
   return interval(intervalTime).pipe(
@@ -33,6 +17,7 @@ function makeInterval (until$) {
 export default class TimesheetModel {
   constructor (name) {
     this.name = name
+    this.duration = 0
 
     // Create a random id for this timesheet
     this.id = Math.random().toString(36).substr(2, 8)
@@ -46,18 +31,24 @@ export default class TimesheetModel {
       distinctUntilChanged()
     )
 
-    // Emits when the timer starts
+    // Emits when the timer starts or stops
     this.started$ = this.running$.pipe(filter(running => running))
     this.stopped$ = this.running$.pipe(filter(running => !running))
 
     // Emits the current length of the timesheet in milliseconds
     this.duration$ = this.started$.pipe(
       switchMapTo(makeInterval(this.stopped$)),
-      scan((sum, time) => sum + time, 0)
+      map(interval => {
+        // Update a local record of the duration
+        this.duration += interval
+        return this.duration
+      }),
+      // Use share to prevent multiple subscriptions from triggering the above
+      // side effect multiple times.
+      share(),
+      // Merge with an observable that emits the current duration immediately
+      // This is so each new subscriber is immediately sent the current duration
+      merge(defer(() => of(this.duration)))
     )
-
-    this.hours$ = this.duration$.pipe(map(toHours))
-    this.minutes$ = this.duration$.pipe(map(toMins))
-    this.seconds$ = this.duration$.pipe(map(toSecs))
   }
 }

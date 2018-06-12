@@ -8,7 +8,8 @@ function nextState (timesheet, state) {
 const PlayButton = ObsReact.component(() => ({ timesheet }) =>
   timesheet.running$.pipe(
     map(isRunning => (
-      <button onClick={nextState(timesheet, !isRunning)}>
+      <button className='btn btn-primary'
+        onClick={nextState(timesheet, !isRunning)}>
         {isRunning ? '\u2759\u2759' : '\u25B6'}
       </button>
     ))

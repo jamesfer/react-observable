@@ -1,0 +1,44 @@
+@import "~spectre.css/src/variables";
+@import "~spectre.css/src/mixins";
+@import "~spectre.css/src/normalize";
+@import "~spectre.css/src/base";
+
+@import "~spectre.css/src/buttons";
+@import "~spectre.css/src/cards";
+@import "~spectre.css/src/icons";
+@import "~spectre.css/src/tiles";
+@import "~spectre.css/src/typography";
+
+@import "~spectre.css/src/utilities/shapes";
+@import "~spectre.css/src/utilities/position";
+@import "~spectre.css/src/utilities/colors";
+
+
+#root {
+  max-width: 400px;
+  padding: 20px;
+  margin: auto;
+
+  @media (min-width: 640px) {
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+}
+
+.timesheet {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px;
+
+  &:first-of-type {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+.timesheet button {
+  margin-left: 5px;
+}
+
+.footer {
+  margin-top: 15px;
+  font-size: 0.8em;
+}
