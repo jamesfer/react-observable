@@ -1,9 +1,9 @@
 import { isArray, map as _map, some, toPairs, unzip, zipObject } from 'lodash'
-import { combineLatest, Observable, of } from 'rxjs'
+import { Observable, combineLatest, of, isObservable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 /**
- * Casts a value to an observable if it is not one.
+ * Casts a value to an rxjs observable if it is not one.
  * @param {*} value
  * @returns {Observable}
  */
@@ -26,8 +26,9 @@ export function mergeObservableObject (valueObject) {
   // Create an observable from all values
   const valuesObservable$ = mergeObservableArray(values)
 
-  if (valuesObservable$ instanceof Observable) {
-    return valuesObservable$.pipe(
+  if (isObservable(valuesObservable$)) {
+    // Cast to an observable just in case it doesn't have the pipe method
+    return castObservable(valuesObservable$).pipe(
       map(values => zipObject(keys, values))
     )
   }
@@ -38,12 +39,12 @@ export function mergeObservableObject (valueObject) {
 }
 
 function isArrayOrObservable (value) {
-  return value instanceof Observable ||
+  return isObservable(value) ||
     (isArray(value) && some(value, isArrayOrObservable))
 }
 
 function combineArrayToObservable (values) {
-  if (values instanceof Observable) {
+  if (isObservable(values)) {
     return values
   }
 

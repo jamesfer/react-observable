@@ -1,7 +1,11 @@
 import { createElement as createReactElement } from 'react'
-import { Observable } from 'rxjs'
+import { isObservable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { mergeObservableArray, mergeObservableObject } from './utils'
+import {
+  castObservable,
+  mergeObservableArray,
+  mergeObservableObject
+} from './utils'
 
 /**
  * Substitute jsx renderer.
@@ -20,8 +24,9 @@ export function createElement (type, props, ...children) {
     ...children
   ])
 
-  if (elementObservable$ instanceof Observable) {
-    return elementObservable$.pipe(
+  if (isObservable(elementObservable$)) {
+    // Cast to an observable just in case it doesn't have the pipe method
+    return castObservable(elementObservable$).pipe(
       map(([ type, props, ...children ]) => {
         return createReactElement(type, props, ...children)
       })
